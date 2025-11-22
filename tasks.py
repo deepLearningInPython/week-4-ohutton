@@ -29,7 +29,7 @@ import numpy as np
 text = "The quick brown fox jumps over the lazy dog!"
 
 # Write a list comprehension to tokenize the text and remove punctuation
-tokens = _ # Your code here
+tokens = ["".join(ch for ch in x if ch.isalpha()) for x in text.split()] # Your code here
 
 # Expected output: ['The', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog']
 print(tokens)
@@ -45,9 +45,12 @@ print(tokens)
 # Your code here:
 # -----------------------------------------------
 def tokenize(string: str) -> list:
-    pass # Your code
+    tokens = ["".join(ch for ch in x if ch.isalpha()) for x in string.split()]
+    tokens = [x.lower() for x in tokens if x]
+    sorted_list = sorted(set(tokens))
+    return sorted_list
 
-
+tokenize(text)
 # -----------------------------------------------
 
 
@@ -74,7 +77,7 @@ def tokenize(string: str) -> list:
 
 # Your code here:
 # -----------------------------------------------
-word_frequencies = _ # Your code here
+word_frequencies = {word: [t.lower() for t in tokens].count(word) for word in set(t.lower() for t in tokens)} # Your code here
 
 # Expected output example: {'the': 2, 'quick': 1, ...}
 print(word_frequencies)
@@ -90,7 +93,7 @@ print(word_frequencies)
 # Your code here:
 # -----------------------------------------------
 def token_counts(string: str, k: int = 1) -> dict:
-    pass # Your code
+
 
 # test:
 text_hist = {'the': 2, 'quick': 1, 'brown': 1, 'fox': 1, 'jumps': 1, 'over': 1, 'lazy': 1, 'dog': 1}
