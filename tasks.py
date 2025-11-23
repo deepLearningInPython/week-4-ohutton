@@ -93,6 +93,9 @@ print(word_frequencies)
 # Your code here:
 # -----------------------------------------------
 def token_counts(string: str, k: int = 1) -> dict:
+    tokens = string.lower().split()
+    freqs = {word: tokens.count(word) for word in set(tokens)}
+    return {word: count for word, count in freqs.items() if count > k}
 
 
 # test:
@@ -124,7 +127,7 @@ all(text_hist[key] == value for key, value in token_counts(text).items())
 
 # Your code here:
 # -----------------------------------------------
-token_to_id = _ # Your code here
+token_to_id = {word: id_code for id_code, word in enumerate(dict.fromkeys(t.lower() for t in tokens))} # Your code here
 
 # Expected output: {'dog': 0, 'quick': 1, 'fox': 2, 'the': 3, 'over': 4, 'lazy': 5, 'brown': 6, 'jumps': 7}
 print(token_to_id)
@@ -136,7 +139,7 @@ print(token_to_id)
 #
 # Your code here:
 # -----------------------------------------------
-id_to_token = _ # Your code here
+id_to_token = {id_code: word for word, id_code in token_to_id.items()} # Your code here
 
 # tests: 
 # test 1
@@ -158,7 +161,15 @@ assert all(id_to_token[token_to_id[key]]==key for key in token_to_id) and all(to
 # -----------------------------------------------
 def make_vocabulary_map(documents: list) -> tuple:
     # Hint: use your tokenize function
-    pass # Your code
+    all_tokens = []
+    for doc in documents:
+        toks = tokenize(doc)
+        all_tokens.extend(toks)
+    
+    unique_tokens = list(dict.fromkeys(all_tokens))
+    token2int = {tok: idx for idx, tok in enumerate(unique_tokens)}
+    int2token = {idx: tok for idx, tok in enumerate(unique_tokens)}
+    return token2int, int2token
 
 # Test
 t2i, i2t = make_vocabulary_map([text])
@@ -177,8 +188,17 @@ all(i2t[t2i[tok]] == tok for tok in t2i) # should be True
 # Your code here:
 # -----------------------------------------------
 def tokenize_and_encode(documents: list) -> list:
+    token_to_id, id_to_token = make_vocabulary_map(documents)
+    encoded_doc = []
+    for doc in documents:
+        tokens = tokenize(doc)
+        encoded = [token_to_id[tok] for tok in tokens]
+        encoded_doc.append(encoded)
+    
+    return encoded_doc, token_to_id, id_to_token
+
     # Hint: use your make_vocabulary_map and tokenize function
-    pass # Your code
+   
 
 # Test:
 enc, t2i, i2t = tokenize_and_encode([text, 'What a luck we had today!'])
