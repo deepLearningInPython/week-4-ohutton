@@ -77,8 +77,10 @@ tokenize(text)
 
 # Your code here:
 # -----------------------------------------------
-lower_tokens = [t.lower() for t in tokens]
-word_frequencies = {word: lower_tokens.count(word) for word in set(lower_tokens)} # Your code here
+word_frequencies = {
+    word: [t.lower() for t in tokens].count(word)
+    for word in set(t.lower() for t in tokens)
+} # Your code here
 
 # Expected output example: {'the': 2, 'quick': 1, ...}
 print(word_frequencies)
