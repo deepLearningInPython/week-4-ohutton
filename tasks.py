@@ -77,7 +77,8 @@ tokenize(text)
 
 # Your code here:
 # -----------------------------------------------
-word_frequencies = {word: [t.lower() for t in tokens].count(word) for word in set(t.lower() for t in tokens)} # Your code here
+lower_tokens = [t.lower() for t in tokens]
+word_frequencies = {word: lower_tokens.count(word) for word in set(lower_tokens)} # Your code here
 
 # Expected output example: {'the': 2, 'quick': 1, ...}
 print(word_frequencies)
@@ -93,8 +94,8 @@ print(word_frequencies)
 # Your code here:
 # -----------------------------------------------
 def token_counts(string: str, k: int = 1) -> dict:
-    tokens = string.lower().split()
-    freqs = {word: tokens.count(word) for word in set(tokens)}
+    toks = tokenize(string)
+    freqs = {tok: toks.count(tok) for tok in set(toks)}
     return {word: count for word, count in freqs.items() if count > k}
 
 
